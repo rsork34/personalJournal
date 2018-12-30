@@ -48,7 +48,7 @@ public class Interface {
                     addPost();
                     break;
                 case "p":
-                    printAllPosts();
+                    journal.printAllPosts();
                     break;
             }
         }
@@ -110,9 +110,13 @@ public class Interface {
         System.out.println(name + " has been added to journal.");
     }
 
+    /**
+     * Deletes a post specified by name that the user inputs
+     */
     private void deletePost() {
         String name = getSpecifiedInput("name");
 
+        // Post not found in journal, return
         if (journal.getPost(name) == null) {
             System.out.println("Error, specified post does not exist");
             return;
@@ -134,11 +138,6 @@ public class Interface {
         System.out.println("Press d to delete a post from the journal");
         System.out.println("Press p to list journal postings");
         System.out.println("/****************************/");
-    }
-
-    private void printAllPosts()
-    {
-        journal.printAllPosts();
     }
 
     /**
