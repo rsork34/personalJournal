@@ -28,8 +28,11 @@ public class Interface {
         // Loop until user chooses to quit
         while (!exit) {
             printInstructions();
+
+            // Get option choice from user
             String userInput = reader.nextLine();
             userInput = userInput.trim();
+            userInput = userInput.toLowerCase();
 
             // Invalid input, loop
             if (!validMenuInput(userInput)) {
@@ -42,24 +45,30 @@ public class Interface {
                 case "q":
                     exit = true;
                     break;
-                // USer prints instructions
+                // User prints instructions
                 case "i":
                     continue;
+                // User deletes post
                 case "d":
                     deletePost();
                     break;
+                // User adds a post
                 case "a":
                     addPost();
                     break;
+                // User prints all journal posts
                 case "p":
                     journal.printAllPosts();
                     break;
+                // User edits existing post
                 case "e":
                     editPost();
                     break;
+                // User saves journal
                 case "s":
                     saveJournal();
                     break;
+                // User loads journal
                 case "l":
                     loadJournal();
                     break;
@@ -94,13 +103,16 @@ public class Interface {
         return toReturn;
     }
 
+    /**
+     * Edits an existing post, updates last date post was edited
+     */
     private void editPost() {
         String name = null;
         String post;
 
         boolean validInput = false;
 
-        /* Get name of post */
+        // Get name of post to edit
         while (!validInput) {
             name = getSpecifiedInput("name");
 
@@ -122,11 +134,11 @@ public class Interface {
         // Find post in journal and edit content
         journal.getPost(name).setPost(post);
         journal.getPost(name).setLastEditedDate(new Date().toString());
-        System.out.println(name + " has been edited.");
+        System.out.println(name + " has been edited.\n");
     }
 
     /**
-     * Adds a post to the journal. Takes in name of post and date.
+     * Adds a post to the journal
      */
     private void addPost() {
         String name = null;
@@ -151,13 +163,14 @@ public class Interface {
 
         // Create new post with user supplied information
         journal.addPost(new Post(name, new Date().toString(), post));
-        System.out.println(name + " has been added to journal.");
+        System.out.println(name + " has been added to journal.\n");
     }
 
     /**
      * Deletes a post specified by name that the user inputs
      */
     private void deletePost() {
+        // Get name input from user
         String name = getSpecifiedInput("name");
 
         // Post not found in journal, return
@@ -168,11 +181,11 @@ public class Interface {
 
         // Post is found, remove it
         journal.removePost(name);
-        System.out.println(name + " has been removed.");
+        System.out.println(name + " has been removed.\n");
     }
 
     /**
-     * Prints the menu instructions for user choices
+     * Prints the menu instructions for user options
      */
     private void printInstructions() {
         System.out.println("/****************************/");
@@ -187,6 +200,9 @@ public class Interface {
         System.out.println("/****************************/");
     }
 
+    /**
+     * Determines if user menu input is a valid option
+     */
     /**
      * Determines if user input is valid
      * @param input String of user input
@@ -206,6 +222,9 @@ public class Interface {
         return false;
     }
 
+    /**
+     * Uses ObjectOutputStream to load journal object from file
+     */
     private void saveJournal() {
         // Save journal to file
         try {
@@ -220,6 +239,9 @@ public class Interface {
     }
 
 
+    /**
+     * Uses ObjectInputStream to load journal object from file
+     */
     private void loadJournal() {
         try {
             ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH));
