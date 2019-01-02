@@ -5,7 +5,8 @@ public class Interface {
     private Journal journal;
     private boolean exit;
     private Scanner reader;
-    private final String[] VALID_INPUT_OPTIONS = {"q", "i", "a", "d", "p"};
+    private final String[] VALID_INPUT_OPTIONS = {"q", "i", "a", "d", "p", "e", "s", "l"};
+    private final static String FILE_PATH = "./saveFile";
     //private final String ERROR_MESSAGE = "Error, invalid input. Please try again";
 
     // Default constructor
@@ -39,8 +40,7 @@ public class Interface {
                     break;
                 // USer prints instructions
                 case "i":
-                    printInstructions();
-                    break;
+                    continue;
                 case "d":
                     deletePost();
                     break;
@@ -49,6 +49,15 @@ public class Interface {
                     break;
                 case "p":
                     journal.printAllPosts();
+                    break;
+                case "e":
+                    editPost();
+                    break;
+                case "s":
+                    saveJournal();
+                    break;
+                case "l":
+                    loadJournal();
                     break;
             }
         }
@@ -79,6 +88,37 @@ public class Interface {
             validInput = true;
         }
         return toReturn;
+    }
+
+    private void editPost() {
+        String name = null;
+        String post;
+
+        boolean validInput = false;
+
+        /* Get name of post */
+        while (!validInput) {
+            name = getSpecifiedInput("name");
+
+            // Post name already exists in journal
+            if (journal.getPost(name) == null) {
+                System.out.println("Error, post does not exit");
+                continue;
+            }
+            validInput = true;
+        }
+
+        // Print out post before editing
+        System.out.println("Post before editing:");
+        System.out.println(journal.getPost(name));
+
+        // Get the content of the new post
+        post = getSpecifiedInput("new post content");
+
+        // Find post in journal and edit content
+        journal.getPost(name).setPost(post);
+        journal.getPost(name).setLastEditedDate(new Date().toString());
+        System.out.println(name + " has been edited.");
     }
 
     /**
@@ -136,7 +176,10 @@ public class Interface {
         System.out.println("Press i to print instructions");
         System.out.println("Press a to add a post to journal");
         System.out.println("Press d to delete a post from the journal");
+        System.out.println("Press e to edit an existing journal post");
         System.out.println("Press p to list journal postings");
+        System.out.println("Press s to save journal");
+        System.out.println("Press l to load journal");
         System.out.println("/****************************/");
     }
 
@@ -156,7 +199,14 @@ public class Interface {
                 return true;
             }
         }
-
         return false;
+    }
+
+    private void saveJournal() {
+
+    }
+
+    private void loadJournal() {
+
     }
 }

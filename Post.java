@@ -1,7 +1,10 @@
-public class Post {
+import java.io.Serializable;
+
+public class Post implements Serializable {
     private String name;
     private String post;
     private String date;
+    private String lastEditedDate;
 
     public Post() {
         this(null, null, null);
@@ -11,6 +14,7 @@ public class Post {
         this.name = name;
         this.date = date;
         this.post = post;
+        this.lastEditedDate = "Never";
     }
 
     /** SETTERS **/
@@ -23,6 +27,12 @@ public class Post {
     public void setDate(String date) {
         if (date != null) {
             this.date = date;
+        }
+    }
+
+    public void setLastEditedDate(String date) {
+        if (date != null) {
+            this.lastEditedDate = date;
         }
     }
 
@@ -41,6 +51,10 @@ public class Post {
         return date;
     }
 
+    public String getLastEditedDate() {
+        return lastEditedDate;
+    }
+
     public String getPost() {
         return post;
     }
@@ -54,8 +68,11 @@ public class Post {
         else toReturn = "\nNo name. \n";
 
         // Date of post
-        if (date != null) toReturn += "Date: " + date + ".\n";
-        else toReturn += "No date.\n";
+        if (date != null) toReturn += "Date: " + date + ".\t";
+        else toReturn += "No date.\t";
+
+        // Date post was last edited
+        toReturn += "Last edited: " + lastEditedDate + "\n";
 
         // Content of post
         if (post != null) toReturn += "Post: " + post + "\n";

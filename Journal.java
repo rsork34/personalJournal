@@ -1,6 +1,7 @@
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Journal {
+public class Journal implements Serializable {
     private ArrayList<Post> postList;
 
     public Journal() {
@@ -29,6 +30,10 @@ public class Journal {
     }
 
     public void removePost(String name) {
+        if (postList == null || postList.isEmpty()) {
+            return;
+        }
+
         for (Post p : postList) {
             if (p.getName().equals(name)) {
                 postList.remove(p);
