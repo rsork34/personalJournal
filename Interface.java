@@ -1,3 +1,7 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.util.Scanner;
 
@@ -203,10 +207,34 @@ public class Interface {
     }
 
     private void saveJournal() {
-
+        // Save journal to file
+        try {
+            ObjectOutputStream outObject = new ObjectOutputStream(new FileOutputStream(FILE_PATH));
+            outObject.writeObject(journal);
+            outObject.close();
+            System.out.println("Journal has been saved successfully");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    private void loadJournal() {
 
+    private void loadJournal() {
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(FILE_PATH));
+            setJournal((Journal) (objectInputStream.readObject()));
+            objectInputStream.close();
+            System.out.println("Journal has been loaded successfully");
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void setJournal(Journal journal) {
+        if (journal != null ) {
+            this.journal = journal;
+        }
     }
 }
